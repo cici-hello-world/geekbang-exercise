@@ -1,0 +1,12 @@
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:20:55:43 +0800] GET /register-form.jsp HTTP/1.1 200 2184 http-bio-8080-exec-1 806
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:20:55:43 +0800] GET /favicon.ico HTTP/1.1 200 - http-bio-8080-exec-3 19
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:20:55:49 +0800] POST /user-web/user/register HTTP/1.1 200 - http-bio-8080-exec-4 2
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:20:55:49 +0800] GET /favicon.ico HTTP/1.1 200 - http-bio-8080-exec-5 2
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:21:15:58 +0800] GET /register-form.jsp HTTP/1.1 200 2184 http-bio-8080-exec-1 93
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:21:15:58 +0800] GET /static/css/bootstrap-4.6.0.min.css HTTP/1.1 304 - http-bio-8080-exec-2 29
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:21:15:58 +0800] GET /static/js/popper-1.16.1.min.js HTTP/1.1 304 - http-bio-8080-exec-4 40
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:21:15:58 +0800] GET /static/js/jquery-3.5.1.slim.min.js HTTP/1.1 304 - http-bio-8080-exec-3 75
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:21:15:58 +0800] GET /static/js/bootstrap-4.6.0.min.js HTTP/1.1 304 - http-bio-8080-exec-5 72
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:21:15:58 +0800] GET /favicon.ico HTTP/1.1 200 - http-bio-8080-exec-9 9
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:21:16:07 +0800] POST /user-web/user/register HTTP/1.1 200 - http-bio-8080-exec-10 1
+0:0:0:0:0:0:0:1 - - [03/Mar/2021:21:16:07 +0800] GET /favicon.ico HTTP/1.1 200 - http-bio-8080-exec-10 2
