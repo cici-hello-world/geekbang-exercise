@@ -56,10 +56,10 @@ public class FrontControllerServlet extends HttpServlet {
         for (Controller controller : ServiceLoader.load(Controller.class)) {
             Class<?> controllerClass = controller.getClass();
             Path pathFromClass = controllerClass.getAnnotation(Path.class);
-            String requestPath = pathFromClass.value();
             Method[] publicMethods = controllerClass.getMethods();
             // 处理方法支持的 HTTP 方法集合
             for (Method method : publicMethods) {
+                String requestPath = pathFromClass.value();
                 Set<String> supportedHttpMethods = findSupportedHttpMethods(method);
                 Path pathFromMethod = method.getAnnotation(Path.class);
                 if (pathFromMethod != null) {
@@ -68,8 +68,10 @@ public class FrontControllerServlet extends HttpServlet {
                 handleMethodInfoMapping.put(requestPath,
                         new HandlerMethodInfo(requestPath, method, supportedHttpMethods));
             }
-            controllersMapping.put(requestPath, controller);
+            controllersMapping.put(pathFromClass.value(), controller);
         }
+        System.out.println("controllersMapping:"+controllersMapping.toString());
+        System.out.println("handleMethodInfoMapping:"+handleMethodInfoMapping.get("/user").getHandlerMethod());
     }
 
     /**
@@ -109,12 +111,15 @@ public class FrontControllerServlet extends HttpServlet {
         // 建立映射关系
         // requestURI = /a/hello/world
         String requestURI = request.getRequestURI();
+        System.out.println("=================requestURI:"+requestURI);
         // contextPath  = /a or "/" or ""
         String servletContextPath = request.getContextPath();
         String prefixPath = servletContextPath;
+        System.out.println("=================prefixPath:"+prefixPath);
         // 映射路径（子路径）
         String requestMappingPath = substringAfter(requestURI,
                 StringUtils.replace(prefixPath, "//", "/"));
+        System.out.println("=================requestMappingPath:"+requestMappingPath);
         // 映射到 Controller
         Controller controller = controllersMapping.get(requestMappingPath);
 

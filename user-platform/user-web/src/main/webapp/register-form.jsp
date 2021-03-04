@@ -20,7 +20,7 @@
 </head>
 <body>
 	<div class="container">
-		<form class="form-signin" action="user-web/user/register" METHOD="post">
+		<form class="form-signin" action="/user-web/user/register" METHOD="post">
 			<h1 class="h3 mb-3 font-weight-normal">注册</h1>
 			<label for="inputMobile" class="sr-only">请输入手机号</label> <input
 				type="mobile" id="inputMobile" class="form-control"

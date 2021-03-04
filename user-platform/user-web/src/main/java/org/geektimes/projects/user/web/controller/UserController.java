@@ -17,20 +17,21 @@ import javax.ws.rs.Path;
 @Path("/user")
 public class UserController implements PageController {
     private final UserService userService=new UserServiceImp();
-
+    @Path("/register/form")
+    public String register(HttpServletRequest request, HttpServletResponse response){
+        return "register-form.jsp";
+    }
 
     @POST
     @Path("/register")
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         System.out.println("请求成功");
-        String mobile = (String) request.getAttribute("mobile");
+        String mobile = (String) request.getAttribute("inputMobile");
         System.out.println("mobile:"+mobile);
         User user = new User();
         user.setPhoneNumber(mobile);
-        if (userService.register(user)){
-            return "register-success.jsp";
-        }
-         return "注册失败";
+        userService.register(user);
+        return "register-success.jsp";
     }
 
 }
