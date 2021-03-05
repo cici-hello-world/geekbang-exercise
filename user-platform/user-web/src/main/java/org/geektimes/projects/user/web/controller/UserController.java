@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 public class UserController implements PageController {
     private final UserService userService=new UserServiceImp();
     @Path("/register/form")
+    @GET
     public String register(HttpServletRequest request, HttpServletResponse response){
         return "register-form.jsp";
     }

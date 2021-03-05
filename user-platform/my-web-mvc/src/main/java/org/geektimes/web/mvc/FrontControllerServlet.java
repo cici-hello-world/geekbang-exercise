@@ -67,11 +67,12 @@ public class FrontControllerServlet extends HttpServlet {
                 }
                 handleMethodInfoMapping.put(requestPath,
                         new HandlerMethodInfo(requestPath, method, supportedHttpMethods));
+                controllersMapping.put(requestPath, controller);
             }
-            controllersMapping.put(pathFromClass.value(), controller);
+
         }
         System.out.println("controllersMapping:"+controllersMapping.toString());
-        System.out.println("handleMethodInfoMapping:"+handleMethodInfoMapping.get("/user").getHandlerMethod());
+        System.out.println("handleMethodInfoMapping:"+handleMethodInfoMapping.toString());
     }
 
     /**
@@ -111,15 +112,13 @@ public class FrontControllerServlet extends HttpServlet {
         // 建立映射关系
         // requestURI = /a/hello/world
         String requestURI = request.getRequestURI();
-        System.out.println("=================requestURI:"+requestURI);
         // contextPath  = /a or "/" or ""
         String servletContextPath = request.getContextPath();
+        System.out.println("1");
         String prefixPath = servletContextPath;
-        System.out.println("=================prefixPath:"+prefixPath);
         // 映射路径（子路径）
         String requestMappingPath = substringAfter(requestURI,
                 StringUtils.replace(prefixPath, "//", "/"));
-        System.out.println("=================requestMappingPath:"+requestMappingPath);
         // 映射到 Controller
         Controller controller = controllersMapping.get(requestMappingPath);
 
@@ -140,19 +139,19 @@ public class FrontControllerServlet extends HttpServlet {
 
                     if (controller instanceof PageController) {
                         PageController pageController = PageController.class.cast(controller);
-                        String viewPath = pageController.execute(request, response);
+                        //    String viewPath = pageController.execute(request, response);
                         // 页面请求 forward
                         // request -> RequestDispatcher forward
                         // RequestDispatcher requestDispatcher = request.getRequestDispatcher(viewPath);
                         // ServletContext -> RequestDispatcher forward
-                        // ServletContext -> RequestDispatcher 必须以 "/" 开头
+                        // ServletContext -> RequestDispatcher 必须以 "/" 开头z
+                        String viewPath = (String) handlerMethodInfo.getHandlerMethod().invoke(pageController, request, response);
                         ServletContext servletContext = request.getServletContext();
                         if (!viewPath.startsWith("/")) {
                             viewPath = "/" + viewPath;
                         }
                         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(viewPath);
                         requestDispatcher.forward(request, response);
-                        return;
                     } else if (controller instanceof RestController) {
                         // TODO
                     }
@@ -166,6 +165,7 @@ public class FrontControllerServlet extends HttpServlet {
                 }
             }
         }
+
     }
 
 //    private void beforeInvoke(Method handleMethod, HttpServletRequest request, HttpServletResponse response) {

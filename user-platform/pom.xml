@@ -127,7 +127,7 @@
                             <phase>package</phase>
                             <configuration>
                                 <!-- ServletContext 路径 -->
-                                <path>/</path>
+                                <path>/user-web</path>
                             </configuration>
                         </execution>
                     </executions>
