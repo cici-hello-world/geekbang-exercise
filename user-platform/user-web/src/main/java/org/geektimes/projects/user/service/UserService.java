@@ -13,7 +13,7 @@ public interface UserService {
      * @param user 用户对象
      * @return 成功返回<code>true</code>
      */
-    boolean register(User user);
+    boolean register(User user) throws Throwable;
 
     /**
      * 注销用户

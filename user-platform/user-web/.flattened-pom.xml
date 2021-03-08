@@ -11,7 +11,6 @@
   <artifactId>user-web</artifactId>
   <version>v1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>User Web Application ${revision}</name>
   <dependencies>
     <dependency>
       <groupId>org.geekbang.projects</groupId>
@@ -46,7 +45,7 @@
               <goal>exec-war-only</goal>
             </goals>
             <configuration>
-              <path>/</path>
+              <path>/user-web</path>
             </configuration>
           </execution>
         </executions>

@@ -19,20 +19,27 @@ public class UserController implements PageController {
     private final UserService userService=new UserServiceImp();
     @Path("/register/form")
     @GET
-    public String register(HttpServletRequest request, HttpServletResponse response){
+    public String registerJsp(HttpServletRequest request, HttpServletResponse response){
         return "register-form.jsp";
     }
 
     @POST
     @Path("/register")
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Throwable {
+    public String register(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         System.out.println("请求成功");
-        String mobile = (String) request.getAttribute("inputMobile");
-        System.out.println("mobile:"+mobile);
+        String mobile = (String) request.getParameter("inputMobile");
+        String email = (String) request.getParameter("inputEmail");
+        String name = (String) request.getParameter("inputName");
+        String password = (String) request.getParameter("inputPassword");
+        String repeatPassword = (String) request.getParameter("repeatPassword");
         User user = new User();
+        user.setName(name);
         user.setPhoneNumber(mobile);
+        user.setEmail(email);
+        user.setPassword(password);
         userService.register(user);
         return "register-success.jsp";
     }
+
 
 }

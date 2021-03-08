@@ -6,31 +6,6 @@
          metadata-complete="true" version="2.5">
 
     <servlet>
-        <servlet-name>default</servlet-name>
-        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
-        <init-param>
-            <param-name>debug</param-name>
-            <param-value>0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>listings</param-name>
-            <param-value>false</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <!-- The mapping for the default servlet -->
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.css</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.js</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>FrontControllerServlet</servlet-name>
         <servlet-class>org.geektimes.web.mvc.FrontControllerServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -53,11 +28,11 @@
 
     <filter-mapping>
         <filter-name>CharsetEncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
+        <url-pattern>/</url-pattern>
+        <!--<dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
-        <dispatcher>ERROR</dispatcher>
+        <dispatcher>ERROR</dispatcher>-->
     </filter-mapping>
 
 

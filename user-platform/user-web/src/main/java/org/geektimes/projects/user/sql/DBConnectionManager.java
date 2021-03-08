@@ -5,13 +5,14 @@ import org.geektimes.projects.user.domain.User;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
+/**
+ * 创建数据库连接
+ */
 public class DBConnectionManager {
 
     private Connection connection;
@@ -33,6 +34,17 @@ public class DBConnectionManager {
             }
         }
     }
+     public DBConnectionManager(){
+         String databaseURL = "jdbc:derby:/db/user-platform;create=true";
+         try {
+             this.connection = DriverManager.getConnection(databaseURL);
+             Statement statement = connection.createStatement();
+             statement.execute(CREATE_USERS_TABLE_DDL_SQL);
+             statement.execute(INSERT_USER_DML_SQL);
+         } catch (SQLException throwables) {
+             throwables.printStackTrace();
+         }
+     }
 
     public static final String DROP_USERS_TABLE_DDL_SQL = "DROP TABLE users";
 
@@ -145,9 +157,8 @@ public class DBConnectionManager {
         return fieldName;
     }
 
-    /**
-     * 数据类型与 ResultSet 方法名映射
-     */
+    // 数据类型与 ResultSet 方法名映射
+
     static Map<Class, String> typeMethodMappings = new HashMap<>();
 
     static {

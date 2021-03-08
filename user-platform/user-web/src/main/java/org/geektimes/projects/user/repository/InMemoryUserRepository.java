@@ -15,6 +15,11 @@ public class InMemoryUserRepository implements UserRepository {
     private Map<Long, User> repository = new ConcurrentHashMap<>();
 
     @Override
+    public User getByMobile(String mobile) {
+        return null;
+    }
+
+    @Override
     public boolean save(User user) {
         return repository.put(user.getId(), user) == null;
     }

@@ -19,6 +19,7 @@ import static org.apache.commons.lang.ClassUtils.wrapperToPrimitive;
 public class DatabaseUserRepository implements UserRepository {
 
     private static Logger logger = Logger.getLogger(DatabaseUserRepository.class.getName());
+    private final Connection connection;
 
     /**
      * 通用处理方式
@@ -31,19 +32,49 @@ public class DatabaseUserRepository implements UserRepository {
 
     public static final String QUERY_ALL_USERS_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users";
 
-    private final DBConnectionManager dbConnectionManager;
-
-    public DatabaseUserRepository(DBConnectionManager dbConnectionManager) {
-        this.dbConnectionManager = dbConnectionManager;
-    }
-
-    private Connection getConnection() {
-        return dbConnectionManager.getConnection();
+    public DatabaseUserRepository(){
+        DBConnectionManager dbConnectionManager = new DBConnectionManager();
+        this.connection = dbConnectionManager.getConnection();
     }
 
     @Override
-    public boolean save(User user) {
-        return false;
+    public User getByMobile(String mobile) throws Throwable{
+        String QUERY_ONE_USERS_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users where phoneNumber='"+mobile+"'";
+        User user =null;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(QUERY_ONE_USERS_DML_SQL);
+            int i=0;
+            while (resultSet.next()){
+                user= new User();
+                user.setId(resultSet.getLong("id"));
+                user.setPassword(resultSet.getString("password"));
+                user.setName(resultSet.getString("name"));
+                user.setPhoneNumber(resultSet.getString("phoneNumber"));
+                user.setEmail(resultSet.getString("email"));
+                i++;
+            }
+            if (i>1){
+                throw new Exception("数据查询异常");
+            }
+        } catch (SQLException throwables) {
+            throw new Exception(throwables);
+        }
+        return user;
+    }
+
+    @Override
+    public boolean save(User user) throws Throwable{
+        Statement statement = null;
+        String insertUser="insert into users (name,password,email,phoneNumber) values('"+user.getName()+"" +
+                "','"+user.getPassword()+"','"+user.getEmail()+"','"+user.getPhoneNumber()+"')";
+        try {
+            statement = connection.createStatement();
+            statement.execute(insertUser);
+        } catch (SQLException throwables) {
+            throw new Exception(throwables);
+        }
+        return true;
     }
 
     @Override
@@ -109,7 +140,6 @@ public class DatabaseUserRepository implements UserRepository {
      */
     protected <T> T executeQuery(String sql, ThrowableFunction<ResultSet, T> function,
                                  Consumer<Throwable> exceptionHandler, Object... args) {
-        Connection connection = getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < args.length; i++) {

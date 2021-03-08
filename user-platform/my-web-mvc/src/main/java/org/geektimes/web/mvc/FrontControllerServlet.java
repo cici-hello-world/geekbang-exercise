@@ -113,12 +113,11 @@ public class FrontControllerServlet extends HttpServlet {
         // requestURI = /a/hello/world
         String requestURI = request.getRequestURI();
         // contextPath  = /a or "/" or ""
-        String servletContextPath = request.getContextPath();
-        System.out.println("1");
-        String prefixPath = servletContextPath;
+      String servletContextPath = request.getContextPath();
+      String prefixPath = servletContextPath;
         // 映射路径（子路径）
-        String requestMappingPath = substringAfter(requestURI,
-                StringUtils.replace(prefixPath, "//", "/"));
+     String requestMappingPath = substringAfter(requestURI,
+              StringUtils.replace(prefixPath, "//", "/"));
         // 映射到 Controller
         Controller controller = controllersMapping.get(requestMappingPath);
 
@@ -152,6 +151,7 @@ public class FrontControllerServlet extends HttpServlet {
                         }
                         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(viewPath);
                         requestDispatcher.forward(request, response);
+                        return;
                     } else if (controller instanceof RestController) {
                         // TODO
                     }

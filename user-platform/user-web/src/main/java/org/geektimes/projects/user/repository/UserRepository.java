@@ -12,7 +12,9 @@ import java.util.List;
  */
 public interface UserRepository {
 
-    boolean save(User user);
+    User getByMobile(String mobile) throws Throwable;
+
+    boolean save(User user) throws Throwable;
 
     boolean deleteById(Long userId);
 
