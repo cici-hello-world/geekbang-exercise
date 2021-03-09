@@ -17,21 +17,23 @@ import java.util.Map;
  */
 public class DBConnectionManager {
 
-
     @Resource(name="jdbc/UserPlatformDB")
     private DataSource dataSource;
 
-    private Connection connection;
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
     public Connection getConnection() {
-        return this.connection;
+        Connection connection = null;
+        try {
+            connection=dataSource.getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (connection!=null){
+            System.out.println("获取数据库链接成功");
+        }
+        return connection;
     }
 
-    public void releaseConnection() {
+   /* public void releaseConnection() {
         if (this.connection != null) {
             try {
                 this.connection.close();
@@ -39,13 +41,8 @@ public class DBConnectionManager {
                 throw new RuntimeException(e.getCause());
             }
         }
-    }
+    }*/
      public DBConnectionManager(){
-         try {
-             this.connection = dataSource.getConnection();
-         } catch (SQLException throwables) {
-             throwables.printStackTrace();
-         }
      }
 
     public static final String DROP_USERS_TABLE_DDL_SQL = "DROP TABLE users";

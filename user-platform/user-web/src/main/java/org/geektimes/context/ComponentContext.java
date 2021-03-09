@@ -76,6 +76,7 @@ public class ComponentContext {
         System.out.println(componentNames);
         // 通过依赖查找，实例化对象（ Tomcat BeanFactory setter 方法的执行，仅支持简单类型）
         componentNames.forEach(name -> componentsMap.put(name, lookupComponent(name)));
+        System.out.println(componentsMap.toString());
     }
 
     /**
@@ -112,6 +113,7 @@ public class ComponentContext {
             try {
                 // 注入目标对象
                 field.set(component, injectedObject);
+                System.out.println(injectedObject.toString()+"注入成功");
             } catch (IllegalAccessException e) {
             }
         });

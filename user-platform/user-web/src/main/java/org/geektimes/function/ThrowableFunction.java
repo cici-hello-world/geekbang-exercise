@@ -39,6 +39,7 @@ public interface ThrowableFunction<T, R> {
      * @return the result after execution
      */
     static <T, R> R execute(T t, ThrowableFunction<T, R> function) {
+        System.out.println("======================开始执行function");
         return function.execute(t);
     }
 }

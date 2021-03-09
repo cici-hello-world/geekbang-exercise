@@ -1,5 +1,6 @@
 package org.geektimes.projects.user.repository;
 
+import org.geektimes.context.ComponentContext;
 import org.geektimes.function.ThrowableFunction;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.sql.DBConnectionManager;
@@ -21,8 +22,6 @@ public class DatabaseUserRepository implements UserRepository {
 
     private static Logger logger = Logger.getLogger(DatabaseUserRepository.class.getName());
     private final Connection connection;
-    @Resource(name="bean/DBConnectionManager")
-    private DBConnectionManager dbConnectionManager;
     /**
      * 通用处理方式
      */
@@ -35,7 +34,7 @@ public class DatabaseUserRepository implements UserRepository {
     public static final String QUERY_ALL_USERS_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users";
 
     public DatabaseUserRepository(){
-        this.connection = dbConnectionManager.getConnection();
+        this.connection = ComponentContext.getInstance().getComponent("jdbc/UserPlatformDB");
     }
 
     @Override
