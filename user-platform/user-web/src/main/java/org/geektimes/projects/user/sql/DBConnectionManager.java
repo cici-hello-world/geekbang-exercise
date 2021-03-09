@@ -2,6 +2,8 @@ package org.geektimes.projects.user.sql;
 
 import org.geektimes.projects.user.domain.User;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -14,6 +16,10 @@ import java.util.Map;
  * 创建数据库连接
  */
 public class DBConnectionManager {
+
+
+    @Resource(name="jdbc/UserPlatformDB")
+    private DataSource dataSource;
 
     private Connection connection;
 
@@ -35,12 +41,8 @@ public class DBConnectionManager {
         }
     }
      public DBConnectionManager(){
-         String databaseURL = "jdbc:derby:/db/user-platform;create=true";
          try {
-             this.connection = DriverManager.getConnection(databaseURL);
-             Statement statement = connection.createStatement();
-             statement.execute(CREATE_USERS_TABLE_DDL_SQL);
-             statement.execute(INSERT_USER_DML_SQL);
+             this.connection = dataSource.getConnection();
          } catch (SQLException throwables) {
              throwables.printStackTrace();
          }
