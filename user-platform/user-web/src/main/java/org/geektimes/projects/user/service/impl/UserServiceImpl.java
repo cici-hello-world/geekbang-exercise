@@ -1,16 +1,20 @@
 package org.geektimes.projects.user.service.impl;
 
 import org.geektimes.projects.user.domain.User;
-import org.geektimes.projects.user.repository.DatabaseUserRepository;
 import org.geektimes.projects.user.repository.UserRepository;
 import org.geektimes.projects.user.service.UserService;
-import org.geektimes.projects.user.sql.DBConnectionManager;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import java.util.logging.Logger;
 
-public class UserServiceImp implements UserService {
-    private UserRepository databaseUserRepository=new DatabaseUserRepository();
-    private static Logger logger = Logger.getLogger(UserServiceImp.class.getName());
+public class UserServiceImpl implements UserService {
+    private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
+    @Resource(name="bean/EntityManager")
+    private EntityManager delegatingEntityManager;
+
+    @Resource(name="bean/DatabaseUserRepository")
+    private UserRepository databaseUserRepository;
     @Override
     public boolean register(User user) throws Throwable{
         //查询手机号是否已注册过
@@ -19,9 +23,12 @@ public class UserServiceImp implements UserService {
             logger.info("电话为"+user.getPhoneNumber()+"的用户已经存在");
             throw new Exception("电话为"+user.getPhoneNumber()+"的用户已经存在");
         }
-        databaseUserRepository.save(user);
+        delegatingEntityManager.persist(user);
+        //databaseUserRepository.save(user);
         return true;
     }
+
+
 
     @Override
     public boolean deregister(User user) {

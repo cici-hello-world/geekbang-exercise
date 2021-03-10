@@ -47,7 +47,6 @@ public class ComponentContext {
      * @return
      */
     public static ComponentContext getInstance() {
-        System.out.println("加载静态方法");
         return (ComponentContext) servletContext.getAttribute(CONTEXT_NAME);
     }
 
@@ -63,7 +62,9 @@ public class ComponentContext {
         // 获取当前 ServletContext（WebApp）ClassLoader
         this.classLoader = servletContext.getClassLoader();
         initEnvContext();
+        //装配bean
         instantiateComponents();
+        //注入bean
         initializeComponents();
     }
 
@@ -120,6 +121,7 @@ public class ComponentContext {
     }
 
     private void processPostConstruct(Object component, Class<?> componentClass) {
+        System.out.println("开始初始化==========="+component.toString());
         Stream.of(componentClass.getMethods())
                 .filter(method ->
                         !Modifier.isStatic(method.getModifiers()) &&      // 非 static
@@ -128,6 +130,7 @@ public class ComponentContext {
                 ).forEach(method -> {
             // 执行目标方法
             try {
+                System.out.println("目标方法："+method.getName());
                 method.invoke(component);
             } catch (Exception e) {
                 throw new RuntimeException(e);

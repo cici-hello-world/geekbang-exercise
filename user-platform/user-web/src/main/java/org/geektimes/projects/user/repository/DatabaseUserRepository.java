@@ -21,7 +21,9 @@ import static org.apache.commons.lang.ClassUtils.wrapperToPrimitive;
 public class DatabaseUserRepository implements UserRepository {
 
     private static Logger logger = Logger.getLogger(DatabaseUserRepository.class.getName());
-    private final Connection connection;
+
+    @Resource(name="bean/DBConnectionManager")
+    private DBConnectionManager dbConnectionManager;
     /**
      * 通用处理方式
      */
@@ -34,7 +36,9 @@ public class DatabaseUserRepository implements UserRepository {
     public static final String QUERY_ALL_USERS_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users";
 
     public DatabaseUserRepository(){
-        this.connection = ComponentContext.getInstance().getComponent("jdbc/UserPlatformDB");
+        System.out.println("加载dataBaseUSerRepository构造方法");
+       // this.connection = dbConnectionManager.getConnection();
+       // this.connection = ComponentContext.getInstance().getComponent("jdbc/UserPlatformDB");
     }
 
     @Override
@@ -42,7 +46,7 @@ public class DatabaseUserRepository implements UserRepository {
         String QUERY_ONE_USERS_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users where phoneNumber='"+mobile+"'";
         User user =null;
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = dbConnectionManager.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(QUERY_ONE_USERS_DML_SQL);
             int i=0;
             while (resultSet.next()){
@@ -69,7 +73,7 @@ public class DatabaseUserRepository implements UserRepository {
         String insertUser="insert into users (name,password,email,phoneNumber) values('"+user.getName()+"" +
                 "','"+user.getPassword()+"','"+user.getEmail()+"','"+user.getPhoneNumber()+"')";
         try {
-            statement = connection.createStatement();
+            statement = dbConnectionManager.getConnection().createStatement();
             statement.execute(insertUser);
         } catch (SQLException throwables) {
             throw new Exception(throwables);
@@ -141,7 +145,7 @@ public class DatabaseUserRepository implements UserRepository {
     protected <T> T executeQuery(String sql, ThrowableFunction<ResultSet, T> function,
                                  Consumer<Throwable> exceptionHandler, Object... args) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = dbConnectionManager.getConnection().prepareStatement(sql);
             for (int i = 0; i < args.length; i++) {
                 Object arg = args[i];
                 Class argType = arg.getClass();

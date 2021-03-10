@@ -2,6 +2,7 @@ package org.geektimes.projects.user.sql;
 
 import org.geektimes.projects.user.domain.User;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.beans.BeanInfo;
@@ -19,6 +20,7 @@ public class DBConnectionManager {
 
     @Resource(name="jdbc/UserPlatformDB")
     private DataSource dataSource;
+
 
     public Connection getConnection() {
         Connection connection = null;
@@ -42,7 +44,9 @@ public class DBConnectionManager {
             }
         }
     }*/
+
      public DBConnectionManager(){
+         System.out.println("加载DBConnectionManager构造器");
      }
 
     public static final String DROP_USERS_TABLE_DDL_SQL = "DROP TABLE users";

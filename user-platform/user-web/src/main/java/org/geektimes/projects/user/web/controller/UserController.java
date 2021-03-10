@@ -2,9 +2,10 @@ package org.geektimes.projects.user.web.controller;
 
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.service.UserService;
-import org.geektimes.projects.user.service.impl.UserServiceImp;
+import org.geektimes.projects.user.service.impl.UserServiceImpl;
 import org.geektimes.web.mvc.controller.PageController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -16,7 +17,8 @@ import javax.ws.rs.Path;
  */
 @Path("/user")
 public class UserController implements PageController {
-    private final UserService userService=new UserServiceImp();
+
+    private UserService userService= new UserServiceImpl();
     @Path("/register/form")
     @GET
     public String registerJsp(HttpServletRequest request, HttpServletResponse response){
@@ -37,9 +39,10 @@ public class UserController implements PageController {
         user.setPhoneNumber(mobile);
         user.setEmail(email);
         user.setPassword(password);
+        System.out.println(userService);
         userService.register(user);
         return "register-success.jsp";
     }
-
+    public UserController(){}
 
 }
