@@ -28,7 +28,6 @@ public class DelegatingEntityManager implements EntityManager {
 
     @PostConstruct
     public void init() {
-        System.out.println(persistenceUnitName+"============="+loadProperties(propertiesLocation));
         EntityManagerFactory entityManagerFactory =
                 Persistence.createEntityManagerFactory(persistenceUnitName, loadProperties(propertiesLocation));
         this.entityManager = entityManagerFactory.createEntityManager();

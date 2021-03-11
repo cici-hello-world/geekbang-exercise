@@ -79,8 +79,8 @@
             <!-- Tomcat Maven 插件用于构建可执行 war -->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.1</version>
+                <artifactId>tomcat8-maven-plugin</artifactId>
+                <version>3.0-r1756463</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.derby</groupId>
